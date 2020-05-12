@@ -10,6 +10,8 @@ import com.movie.ratingservice.model.Rating;
 @RestController
 @RequestMapping("/ratingsdata")
 public class RatingDataResource {
+	/* Microserves precisam rodar em portas diferentes,
+	 * não esqueça de configurar as portas no resources/application.properties*/
 	
 	@GetMapping("/{movieId}")
 	public Rating getRating(@PathVariable("movieId") String movieId) {

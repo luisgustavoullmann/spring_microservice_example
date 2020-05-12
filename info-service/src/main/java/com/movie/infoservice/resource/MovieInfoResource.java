@@ -16,6 +16,6 @@ public class MovieInfoResource {
 	@GetMapping("{movieId}")
 	public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
 		//Hardcode movie
-		return new Movie(movieId, "name");
+		return new Movie(movieId, "name", "description");
 	}
 }

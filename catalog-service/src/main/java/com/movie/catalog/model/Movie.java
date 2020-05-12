@@ -1,5 +1,7 @@
-package com.movie.infoservice.model;
+package com.movie.catalog.model;
 
+//You need the APIs model, to store the infos
+//Don't use JPA here
 public class Movie {
 
 	private String movieId;
@@ -38,4 +40,5 @@ public class Movie {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 }
