@@ -34,7 +34,7 @@ public class MovieCatalogResource {
 		//Using WebClient as a alternative for the RestTemplate
 		//WebClient doesn't exist in the class path, 
 		//is based on reacting programming space or asynchronous programming
-		//Spring Initializr - In pom.xml, import dependecy reactive web with Spring Webflux
+		//Spring Initializr - In pom.xml, import dependency reactive web with Spring Webflux
 		//WebClient.Builder builder = WebClient.builder(); create bean for this	
 		
 		// --> 1 - Get all rated movies IDs

@@ -28,5 +28,9 @@ public class CatalogServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogServiceApplication.class, args);
 	}
+	
+	//Step 4 -> After created Microservices and core, implement Eureka
+	//Eureka Client is for APIs and Core, add in each pom.xml
+	//Eureka Server, discovery-server, it's just to know APIs for the Core
 
 }
