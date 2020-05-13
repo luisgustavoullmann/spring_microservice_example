@@ -15,6 +15,11 @@ public class DiscoveryServerApplication {
 	//Eureka Client is for APIs and Core, add in each pom.xml
 	//Eureka Server, discovery-server, it's just to know APIs for the Core
 	
+	/* 	If you're using STS, you have to add
+		server.port=8761
+		eureka.client.register-with-eureka=false
+		eureka.client.fetch-registry=false*/
+	
 	//https://mvnrepository.com/
 	//You have to add some libs in pom.xml
 	//javax.xml.bind - jaxb-api - 2.3.0
