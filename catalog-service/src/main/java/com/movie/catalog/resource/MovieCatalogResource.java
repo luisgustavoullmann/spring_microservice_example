@@ -24,6 +24,10 @@ public class MovieCatalogResource {
 	//RestTemplate will be deprecated, use the alternative WebClient
 	private RestTemplate restTemplate; //the name doesn't matter, the type matters
 	
+	//If you have multiple services doing the same service (Like Stock information Yahoo/IEX)
+	//You can acess port, IDs etc
+	//private DiscoveryClient discoveryClient;
+	
 	
 	//@Autowired
 	//private WebClient.Builder webClientBuilder;//Dependency injection for reactive program
@@ -43,7 +47,9 @@ public class MovieCatalogResource {
 		//but you need objects (for a particularly class) to detail with the data
 		//and that's why we have to copy the models from APIs
 		//With you want a list of objects, see UserRating model/API
-		UserRating ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class); //see UserRating (API and copy the model to Core)
+		//URL Before @LoadBalance - http://localhost:8083/ratingsdata/users/ 
+		// After - name is in application.properties | see @LoadBalance and needs Eureka Client/Spring Cloud
+		UserRating ratings = restTemplate.getForObject("http://movie-rating-service/ratingsdata/users/" + userId, UserRating.class); //see UserRating (API and copy the model to Core)
 		
 		//Using RestTemplate to make the API call
 		//stream, group of data
@@ -57,7 +63,9 @@ public class MovieCatalogResource {
 			//gets back a string, so you provide a class with the same properties
 			//as the JSON, RestTemplate is going to create the instance of the class
 			//populate those forms for you and give you a fully object
-			Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
+			//URL before @LoadBalance - http://localhost:8082/movies/
+			//// After - name is in application.properties | see @LoadBalance and needs Eureka Client/Spring Cloud
+			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
 			
 			//Asynchronous - Reacting programmimg - Webflux
 			/*Instance in reactive programming, the line above will be replaced by this:
