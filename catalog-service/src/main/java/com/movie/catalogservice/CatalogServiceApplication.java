@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -22,7 +23,13 @@ public class CatalogServiceApplication {
 	//because Eureka knows spring.application.name not the URL name
 	//so change the URL for the spring.application.name in MovieCatalogResources
 	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
+		//return new RestTemplate(); Just simples constructor
+		
+		//First way to set the timeout (the second is better)
+		//This class it's what allows to create the timeout
+		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+		clientHttpRequestFactory.setConnectTimeout(3000); //set 3s for timeout
+		return new RestTemplate(clientHttpRequestFactory); //this solution don't solve the problem (there's a second way to solve it)
 	}
 	
 	//Just create this Bean with in your projet you are using reactive programmimg
