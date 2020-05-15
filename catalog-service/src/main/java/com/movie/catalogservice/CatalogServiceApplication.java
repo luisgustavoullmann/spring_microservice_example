@@ -14,7 +14,7 @@ public class CatalogServiceApplication {
 
 	//CORE APP
 	
-	//You need the APIs model, to store the infos
+	//You need the APIs model, to store the information
 	
 	@Bean //Bean is a producer, so save this instance somewhere
 	//RestTemplate will be deprecated, use the alternative WebClient
@@ -23,16 +23,36 @@ public class CatalogServiceApplication {
 	//because Eureka knows spring.application.name not the URL name
 	//so change the URL for the spring.application.name in MovieCatalogResources
 	public RestTemplate getRestTemplate() {
-		//return new RestTemplate(); Just simples constructor
+		//return new RestTemplate(); Just simples constructor, don't use this because there is a problem
 		
-		//First way to set the timeout (the second is better)
-		//This class it's what allows to create the timeout
+		// - The problem is, if you have one service consuming all resources
+		//everything could be slow and you will have a break in the system
+		//cause every service have to wait for the threads (stopped) happens
+		
+		/* - First solution/way to set the timeout (the second is better)
+		//This class (Http) it's what allows to create the timeout
+		//Because you still have threads after 3s in this case,
+		//it's a problem for short-term and also long-term
+		//cause if you receive a request for a second, the breaking still happens
 		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-		clientHttpRequestFactory.setConnectTimeout(3000); //set 3s for timeout
+		clientHttpRequestFactory.setConnectTimeout(3000); //block/set 3s for timeout
 		return new RestTemplate(clientHttpRequestFactory); //this solution don't solve the problem (there's a second way to solve it)
+		*/
+		
+		// - Solution, you have to give a time to the service to recover
+		//and start to call again in a near future.
+		//This is circuit breaker pattern for fault tolerance
+		//technically you can implement a circuit breaker in every microservice you have been calling
+		//1) detect something is wrong
+		//2) take temporary steps to avoid the situation getting worse (stop to send request temporarily)
+		//3) deactivate the problem component so that it doesn't affect downstream components
+		
+		
+		
+		
 	}
 	
-	//Just create this Bean with in your projet you are using reactive programmimg
+	//Just create this Bean with in your project you are using reactive programming
 	/*@Bean
 	public WebClient.Builder getWebClientBuilder(){
 		return WebClient.builder();
@@ -47,3 +67,6 @@ public class CatalogServiceApplication {
 	//Eureka Server, discovery-server, it's just to know APIs for the Core
 
 }
+
+// Fault Tolerance - if a service was down, that will break all system?
+// Resilience - How many times that service should have to going up/down to be acceptable? 
