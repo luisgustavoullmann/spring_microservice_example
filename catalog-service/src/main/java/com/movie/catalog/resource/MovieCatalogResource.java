@@ -25,7 +25,7 @@ public class MovieCatalogResource {
 	private RestTemplate restTemplate; //the name doesn't matter, the type matters
 	
 	//If you have multiple services doing the same service (Like Stock information Yahoo/IEX)
-	//You can acess port, IDs etc
+	//You can access port, IDs etc
 	//private DiscoveryClient discoveryClient;
 	
 	

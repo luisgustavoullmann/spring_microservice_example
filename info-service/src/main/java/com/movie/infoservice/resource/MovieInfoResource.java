@@ -18,7 +18,7 @@ public class MovieInfoResource {
 	public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
 		//Hardcode movie
 		return new Movie(movieId, "name", "description");
-	}
+	} //Part2 - Usando MovieResource para pegar dados do MovieId e evitar o hard code
 	
 	//Add the dependency to Eureka on pom.xml
 	//Don't forget the version in dependencyManagement
