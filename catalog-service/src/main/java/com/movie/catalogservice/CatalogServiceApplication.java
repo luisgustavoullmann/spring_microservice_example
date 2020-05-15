@@ -46,6 +46,18 @@ public class CatalogServiceApplication {
 		//1) detect something is wrong
 		//2) take temporary steps to avoid the situation getting worse (stop to send request temporarily)
 		//3) deactivate the problem component so that it doesn't affect downstream components
+		//you can setup the circuit breaker to deal with timeout/error
+		//but the logic is, what is the trigger for the circuit break to be smart enough to deal with a bunch of user cases
+		//What is the parameters for the circuit breaker: (you have to give an answer this question) 
+		//A) When does the circuit trip? Last N request to consider for the decision 
+		//(in every fail, can check the last N request/looking the scope to see it's ok or not)
+		//B) How many of those should fail?
+		//C) Timeout duration itself - what point of time do you consider it's a fail?
+		//When does the circuit get to normal? How long after a circuit trip to try again?
+		//when everything is bad, the worse way it's keep sending requests!
+		//For a complete list of config params (for circuit breaker like Hystrix) refer:
+		//https://github.com/Netflix/Hystrix/wiki/Configuration
+		//And how do I change the config dynamically? (search the answer) 
 		
 		
 		
