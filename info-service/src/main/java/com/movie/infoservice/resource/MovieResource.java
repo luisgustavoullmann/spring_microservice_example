@@ -25,6 +25,7 @@ public class MovieResource {
 	private RestTemplate restTemplate;
 	
 	@GetMapping("/{movieId}")
+	
 	public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
 		MovieSummary movieSummary = restTemplate.getForObject("https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey, 
 				MovieSummary.class);

@@ -2,6 +2,7 @@ package com.movie.catalogservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableCircuitBreaker
 public class CatalogServiceApplication {
 
 	//CORE APP
@@ -39,7 +41,7 @@ public class CatalogServiceApplication {
 		return new RestTemplate(clientHttpRequestFactory); //this solution don't solve the problem (there's a second way to solve it)
 		*/
 		
-		// - Solution, you have to give a time to the service to recover
+		// - Solution, you have to give a time for the service to recover
 		//and start to call again in a near future.
 		//This is circuit breaker pattern for fault tolerance
 		//technically you can implement a circuit breaker in every microservice you have been calling
@@ -57,10 +59,20 @@ public class CatalogServiceApplication {
 		//when everything is bad, the worse way it's keep sending requests!
 		//For a complete list of config params (for circuit breaker like Hystrix) refer:
 		//https://github.com/Netflix/Hystrix/wiki/Configuration
-		//And how do I change the config dynamically? (search the answer) 
+		//And how do I change the config dynamically? (search the answer) 		
 		
+		//We need a fallback - throw an error is not an option
+		//return a fallback "default" response or
+		//save previous responses (cache) and use that when possible
 		
-		
+		//Hystrix:
+		//Implements circuit breaker pattern so you don't have to
+		//Give it the configuration params and it goes the work
+		//Steps to add hystrix to a Spring Boot microservice:
+		//1) Add the Maven spring-cloud-starter-netflix-hystrix dependency
+		//2) Go to the main class an add this annotation @EnableCircuitBreaker
+		//3) Add @HystrixCommand to methods that need circuit breakers
+		//4) Configure Hystrix behavior, provide the parameters
 		
 	}
 	
