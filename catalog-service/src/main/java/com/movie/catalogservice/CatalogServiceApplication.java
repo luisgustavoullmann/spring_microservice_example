@@ -6,7 +6,6 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -73,7 +72,7 @@ public class CatalogServiceApplication {
 		//2) Go to the main class an add this annotation @EnableCircuitBreaker
 		//3) Add @HystrixCommand to methods that need circuit breakers
 		//4) Configure Hystrix behavior, provide the parameters
-		
+		return null;
 	}
 	
 	//Just create this Bean with in your project you are using reactive programming

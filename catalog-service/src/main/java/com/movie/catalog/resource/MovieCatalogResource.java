@@ -1,5 +1,6 @@
 package com.movie.catalog.resource;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,9 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.movie.catalog.model.CatalogItem;
 import com.movie.catalog.model.Movie;
 import com.movie.catalog.model.UserRating;
-import com.movie.infoservice.resource.Arrays;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.proxy.annotation.Hystrix;
 
 @RestController //API
 @RequestMapping("/catalog") //URL
@@ -36,8 +35,10 @@ public class MovieCatalogResource {
 	//private WebClient.Builder webClientBuilder;//Dependency injection for reactive program
 
 	@GetMapping("/{userId}")
-	@HystrixCommand(fallbackMethod = "getFallbackCatalog") //version 2.2.2 - I had some problems without mention the version
-	//This method makes every call, so it will need a circuit breaker
+	//version 2.2.2 - I had some problems without mention the version
+	//This method makes every call, so it will need a circuit breaker here.
+	//This is a method which should not cause everything to go down 
+	@HystrixCommand(fallbackMethod = "getFallbackCatalog") //instead break the circuit, call this method "getFallback"
 	public List<CatalogItem> getCatalog(@PathVariable("userId") String userId){		
 		
 		//Using WebClient as a alternative for the RestTemplate
@@ -91,7 +92,8 @@ public class MovieCatalogResource {
 				
 	}
 	
+	//Need to be simple and hard coded fallback. You don't want another call, that's why it's hard coded
 	public List<CatalogItem> getFallbackCatalog(@PathVariable("userId") String userId){
-		return new Arrays.asList(new CatalogItem("No movie", "", 0));
+		return Arrays.asList(new CatalogItem("No movie", "", 0)); //default response
 	}
 }
