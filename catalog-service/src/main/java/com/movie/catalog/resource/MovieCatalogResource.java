@@ -13,6 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import com.movie.catalog.model.CatalogItem;
 import com.movie.catalog.model.Movie;
 import com.movie.catalog.model.UserRating;
+import com.movie.infoservice.resource.Arrays;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.ribbon.proxy.annotation.Hystrix;
 
 @RestController //API
 @RequestMapping("/catalog") //URL
@@ -33,6 +36,8 @@ public class MovieCatalogResource {
 	//private WebClient.Builder webClientBuilder;//Dependency injection for reactive program
 
 	@GetMapping("/{userId}")
+	@HystrixCommand(fallbackMethod = "getFallbackCatalog") //version 2.2.2 - I had some problems without mention the version
+	//This method makes every call, so it will need a circuit breaker
 	public List<CatalogItem> getCatalog(@PathVariable("userId") String userId){		
 		
 		//Using WebClient as a alternative for the RestTemplate
@@ -67,7 +72,7 @@ public class MovieCatalogResource {
 			//// After - name is in application.properties | see @LoadBalance and needs Eureka Client/Spring Cloud
 			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
 			
-			//Asynchronous - Reacting programmimg - Webflux
+			//Asynchronous - Reacting programming - Webflux
 			/*Instance in reactive programming, the line above will be replaced by this:
 			Movie movie = webClientBuilder.build() //creating new instance
 				.get() //calling the method (Get or Post..)
@@ -84,5 +89,9 @@ public class MovieCatalogResource {
 		})
 		.collect(Collectors.toList()); //Give a list for who have been calling
 				
+	}
+	
+	public List<CatalogItem> getFallbackCatalog(@PathVariable("userId") String userId){
+		return new Arrays.asList(new CatalogItem("No movie", "", 0));
 	}
 }

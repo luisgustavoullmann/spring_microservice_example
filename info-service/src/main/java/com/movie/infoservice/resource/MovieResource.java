@@ -13,7 +13,7 @@ import com.movie.infoservice.model.MovieSummary;
 
 @RestController
 @RequestMapping("/movie")
-public class MovieResource {
+public class MovieResource<CatalogItem> {
 	//Started in the 2 part
 	//Created for MovieDB API
 	//just to avoid hard coded values
@@ -25,10 +25,10 @@ public class MovieResource {
 	private RestTemplate restTemplate;
 	
 	@GetMapping("/{movieId}")
-	
 	public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
 		MovieSummary movieSummary = restTemplate.getForObject("https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey, 
 				MovieSummary.class);
 		return new Movie(movieId, movieSummary.getTitle(), movieSummary.getOverview());
 	}
+	
 }
