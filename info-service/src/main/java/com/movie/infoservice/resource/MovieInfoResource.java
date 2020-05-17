@@ -24,7 +24,8 @@ public class MovieInfoResource {
 	//Don't forget the version in dependencyManagement
 	/*<properties>
 		<java.version>11</java.version>
-		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<!-- <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>  -->
+		<spring-cloud.version>Hoxton.M2</spring-cloud.version>
 	</properties>
 
 	<dependencies>

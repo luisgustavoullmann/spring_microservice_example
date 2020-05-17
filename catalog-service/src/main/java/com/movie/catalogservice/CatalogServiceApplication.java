@@ -5,13 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker //Hystrix dependency
-public class CatalogServiceApplication {
+@EnableHystrixDashboard //Dashboard pom
+public class CatalogServiceApplication { //Search for Bulkhead Pattern
 
 	//CORE APP
 	
@@ -93,3 +95,8 @@ public class CatalogServiceApplication {
 
 // Fault Tolerance - if a service was down, that will break all system?
 // Resilience - How many times that service should have to going up/down to be acceptable? 
+
+/* Change because of some issues:
+ * <!-- <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>  -->
+		<spring-cloud.version>Hoxton.M2</spring-cloud.version>
+*/
