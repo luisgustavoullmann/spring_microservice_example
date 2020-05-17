@@ -33,7 +33,7 @@ public class MovieCatalogResource {
 	//private WebClient.Builder webClientBuilder;//Dependency injection for reactive program
 	
 	@Autowired
-	private MovieInfo movieInfo; //Created for refactoring granular fallback, use bean and  create a proxy
+	private MovieInfo movieInfo; //Creating a refactoring granular fallback, use bean and  create a proxy
 	
 	@Autowired
 	private UserRatingInfo userRatingInfo; //Created for refactoring granular fallback, use bean and  create a proxy

@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.movie.catalog.model.Rating;
 import com.movie.catalog.model.UserRating;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 public class UserRatingInfo {
@@ -18,7 +19,13 @@ public class UserRatingInfo {
 		private RestTemplate restTemplate; //making API call
 	
 		//Creating granularity for Hystrix, for fallback per service
-		@HystrixCommand(fallbackMethod = "getFallbackUserRating")
+		@HystrixCommand(fallbackMethod = "getFallbackUserRating",
+				commandProperties = { //Search for Configuration Hystrix, because have a bunch of parameters
+						@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="2000"), //Timeout
+						@HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"), //Last N request
+						@HystrixProperty(name="circuitBreaker.errorThresholdPercentege", value="50"), //Percentage of error of last N request
+						@HystrixProperty(name="circuitBreaker.spleepWindowInMilliseconds", value="5000"), //How long the circuit breaker it's going sleep
+				})
 		public UserRating getUserRating(@PathVariable("userId") String userId) {
 			return restTemplate.getForObject("http://movie-rating-service/ratingsdata/users/" + userId, UserRating.class); //see UserRating (API and copy the model to Core)
 		}
