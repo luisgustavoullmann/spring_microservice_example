@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @EnableCircuitBreaker //Hystrix dependency
 @EnableHystrixDashboard //Dashboard pom
-public class CatalogServiceApplication { //Search for Bulkhead Pattern
+public class CatalogServiceApplication { 
 
 	//CORE APP
 	

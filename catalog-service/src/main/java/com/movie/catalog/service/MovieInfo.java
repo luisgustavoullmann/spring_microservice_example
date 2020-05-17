@@ -15,7 +15,7 @@ public class MovieInfo {
 	
 		@Autowired
 		private RestTemplate restTemplate; //making API call
-	
+		
 		//Creating granularity for Hystrix, for fallback per service
 		@HystrixCommand(fallbackMethod = "getFallbackCatalogItem",
 				commandProperties = { //Search for Configuration Hystrix, because have a bunch of parameters
@@ -23,6 +23,11 @@ public class MovieInfo {
 						@HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"), //Last N request
 						@HystrixProperty(name="circuitBreaker.errorThresholdPercentege", value="50"), //Percentage of error of last N request
 						@HystrixProperty(name="circuitBreaker.spleepWindowInMilliseconds", value="5000"), //How long the circuit breaker it's going sleep
+				},//Search for Bulkhead Pattern - separated threads pools for each microservice
+				threadPoolKey = "movieInfoPool", //Creating separate threads pool
+				threadPoolProperties = {
+						@HystrixProperty(name = "coreSize", value ="20"), //Thread pool size, how many threads allows per time
+						@HystrixProperty(name = "maxQueueSize", value ="10") //How many request are waiting in the queue
 				})
 		public CatalogItem getCatalogItem(Rating rating) {
 			Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
