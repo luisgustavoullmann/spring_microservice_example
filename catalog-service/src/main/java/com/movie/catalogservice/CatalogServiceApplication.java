@@ -23,9 +23,7 @@ public class CatalogServiceApplication {
 	//first discover. And now the RestTemplate will discover the hint in the URL
 	//because Eureka knows spring.application.name not the URL name
 	//so change the URL for the spring.application.name in MovieCatalogResources
-	public RestTemplate getRestTemplate() {
-		//return new RestTemplate(); Just simples constructor, don't use this because there is a problem
-		
+	public RestTemplate getRestTemplate() {		
 		// - The problem is, if you have one service consuming all resources
 		//everything could be slow and you will have a break in the system
 		//cause every service have to wait for the threads (stopped) happens
@@ -72,7 +70,9 @@ public class CatalogServiceApplication {
 		//2) Go to the main class an add this annotation @EnableCircuitBreaker
 		//3) Add @HystrixCommand to methods that need circuit breakers
 		//4) Configure Hystrix behavior, provide the parameters
-		return null;
+		//How does Hystrix works? Wrapping your class in a proxy class
+		//test the response.
+		return new RestTemplate();
 	}
 	
 	//Just create this Bean with in your project you are using reactive programming

@@ -9,11 +9,14 @@ public class UserRating {
 	//and will return an object in the 
 	//List<Rating> object
 	private List<Rating> userRating;
+	private String UserId;
 	
 	public UserRating() {
 	}
-	public UserRating(List<Rating> userRating) {
+
+	public UserRating(List<Rating> userRating, String userId) {
 		this.userRating = userRating;
+		UserId = userId;
 	}
 
 	public List<Rating> getUserRating() {
@@ -22,6 +25,14 @@ public class UserRating {
 
 	public void setUserRating(List<Rating> userRating) {
 		this.userRating = userRating;
+	}
+
+	public String getUserId() {
+		return UserId;
+	}
+
+	public void setUserId(String userId) {
+		UserId = userId;
 	}
 		
 }
